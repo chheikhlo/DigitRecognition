@@ -1,0 +1,110 @@
+
+# Visualisation des données MNIST
+
+```{r}
+# importation bibliothèques
+library(dplyr)
+```
+
+```{r}
+# Charger les données MNIST (remplacer le chemin par le vôtre)
+train <- read.csv('train.csv')
+train
+```
+
+```{r}
+# Describe
+summary(train)
+```
+
+
+
+a) Afficher une image 
+
+```{r}
+par(mfrow = c(1, 1), mar = c(0.5, 0.5, 1, 0.5))
+# Sélectionner une ligne aléatoire
+index_alea <- sample(1:nrow(train), 1)
+image_alea <- train[index_alea, ]
+ 
+# Extraction des pixels et conversion en matrice 28x28
+pixels <- as.matrix(image_alea[-1])
+pixels <- matrix(pixels, nrow = 28, ncol = 28, byrow = TRUE)
+ 
+# Inverser les lignes de la matrice
+pixels <- pixels[nrow(pixels):1, ]
+
+# Afficher l'image
+image(t(pixels), col = gray.colors(256), main = paste("Label:", image_alea$label, axes = FALSE))
+```
+
+b) Afficher chaque chiffre
+
+```{r}
+# Créer une figure 2x5 pour afficher les images
+par(mfrow = c(2, 5))
+
+for (i in 0:9) {
+  # Sélectionner les lignes correspondant au chiffre i
+  group <- train %>% filter(label == i)
+
+  # Sélectionner une ligne aléatoire
+  index_alea <- sample(1:nrow(group), 1)
+  image_alea <- group[index_alea, ]
+
+  # Extraire les pixels et les convertir en matrice 28x28
+  pixels <- as.matrix(image_alea[-1])
+  pixels <- matrix(pixels, nrow = 28, ncol = 28, byrow = TRUE)
+  
+  # Inverser les lignes de la matrice
+  pixels <- pixels[nrow(pixels):1, ]
+
+  # Afficher l'image avec le label
+  image(t(pixels), col = gray.colors(256), main = paste("Label:", i), axes = FALSE)
+}
+```
+
+c) Afficher plusieurs fois le même chiffre
+      * Pour visualiser les différentes façons d'écrire un 7, afficher les 9 1ères
+      * images qui correspondent au chiffre 7 en les plaçant dans une même figure ?
+```{r}
+# Filtrer les lignes correspondant au chiffre 7
+sept <- train %>% filter(label == 7) %>% head(9)
+
+# Créer une figure 3x3 pour afficher les images
+par(mfrow = c(3, 3), mar = c(0.5, 0.5, 1, 0.5))
+
+for (i in 1:9) {
+  # Extraction et convertion des pixels en matrice 28x28
+  pixels <- as.matrix(sept[i, -1])
+  pixels <- matrix(pixels, nrow = 28, ncol = 28, byrow = TRUE)
+  
+   # Inverser les lignes de la matrice
+  pixels <- pixels[nrow(pixels):1, ]
+  
+  # Afficher l'image
+  image(t(pixels), col = gray.colors(256), main = paste("Image", i), axes = FALSE, asp = 1)
+}
+```
+d) Représentant moyen
+    * Afficher le représentant "moyen" de chaque chiffre ?
+```{r}
+# Creer une figure 4x3 pour afficher les images moyennes
+  par(mfrow = c(4, 3), mar = c(0.1, 3, 1, 0.1))
+
+for (digit in 0:9) {
+  # Filtrer les donnees pour le chiffre et calculer la moyenne des pixels
+  image_moy <- train %>% filter(label == digit) %>% select(-label) %>% summarise_all(mean) %>% as.numeric()
+
+  # Convertion la moyenne en matrice 28x28
+  image_moy <- matrix(image_moy, nrow = 28, ncol = 28, byrow = TRUE)
+
+  # Inversion les lignes de la matrice
+  image_moy <- image_moy[nrow(image_moy):1, ]
+
+  # Afficher l'image moyenne
+  image(t(image_moy), col = gray.colors(256), main = paste("Moyenne", digit), axes = FALSE)
+}
+```
+
+

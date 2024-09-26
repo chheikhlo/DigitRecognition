@@ -1,0 +1,72 @@
+.App {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.prediction {
+  margin-top: 20px;
+}
+
+.canvas-container {
+  margin: 20px auto;
+}
+
+.canvas {
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
+button {
+  /* position: absolute; */
+  bottom: 200px; /* Distance du bas de la div */
+  left: 50%; /* Centrer les boutons horizontalement */
+  transform: translateX(-50%); /* Décalage de -50% pour centrer parfaitement */
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+button:first-child {
+  margin-right: 20px; /* Espacement entre les boutons */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
